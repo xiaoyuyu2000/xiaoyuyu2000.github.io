@@ -6,8 +6,29 @@
     <description>Recent content in Tags on RR的博客</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 01 Jan 2025 21:40:56 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 24 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LLM</title>
+      <link>http://example.org/tags/llm/</link>
+      <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/llm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Transformers</title>
+      <link>http://example.org/tags/transformers/</link>
+      <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/transformers/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>论文</title>
+      <link>http://example.org/tags/%E8%AE%BA%E6%96%87/</link>
+      <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/%E8%AE%BA%E6%96%87/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Fiction</title>
       <link>http://example.org/tags/fiction/</link>

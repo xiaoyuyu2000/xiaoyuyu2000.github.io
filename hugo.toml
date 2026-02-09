@@ -1269,6 +1269,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   section = ["HTML", "RSS"]
 
   taxonomy = ["HTML", "RSS"]
+  # taxonomyTerm = ["HTML", "RSS"]
+  # term = ["HTML", "RSS"]
 
 [caches]
   [caches.images]

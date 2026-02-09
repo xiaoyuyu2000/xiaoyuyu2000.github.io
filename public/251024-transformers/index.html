@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Transformers 模型：《Attention is All You Need》论文笔记 - RR的博客</title><meta name="Description" content="RR的博客"><meta property="og:url" content="http://example.org/251024-transformers/">
+  <meta property="og:site_name" content="RR的博客">
+  <meta property="og:title" content="Transformers 模型：《Attention is All You Need》论文笔记">
+  <meta property="og:description" content="Transformers 模型：《Attention is All You Need》论文笔记">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-24T00:00:00+00:00">
+    <meta property="article:tag" content="Transformers">
+    <meta property="article:tag" content="论文">
+    <meta property="article:tag" content="LLM">
+    <meta property="og:image" content="http://example.org/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/logo.png">
+  <meta name="twitter:title" content="Transformers 模型：《Attention is All You Need》论文笔记">
+  <meta name="twitter:description" content="Transformers 模型：《Attention is All You Need》论文笔记">
+<meta name="application-name" content="RR的网站">
+<meta name="apple-mobile-web-app-title" content="RR的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/251024-transformers/" /><link rel="prev" href="http://example.org/first_post/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Transformers 模型：《Attention is All You Need》论文笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/251024-transformers\/"
+        },"genre": "posts","keywords": "Transformers, 论文, LLM","wordcount":  2640 ,
+        "url": "http:\/\/example.org\/251024-transformers\/","datePublished": "2025-10-24T00:00:00+00:00","dateModified": "2025-10-24T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "RR"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Transformers 模型：《Attention is All You Need》论文笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>RR</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%BA%E6%96%87/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>论文</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-10-24">2025-10-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2640 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景知识">背景知识</a>
+      <ul>
+        <li><a href="#feedforward-neural-network-fnn-前馈神经网络">Feedforward Neural Network (FNN) 前馈神经网络</a></li>
+        <li><a href="#recurrent-neural-network-rnn-循环神经网络">Recurrent Neural Network (RNN) 循环神经网络</a></li>
+        <li><a href="#encoder-and-decoder-编码器---解码器结构">Encoder and Decoder 编码器 - 解码器结构</a>
+          <ul>
+            <li><a href="#encode-decode的问题">Encode-Decode的问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#attention-mechanism-注意力机制">Attention Mechanism 注意力机制</a></li>
+      </ul>
+    </li>
+    <li><a href="#transformer">Transformer</a>
+      <ul>
+        <li><a href="#transformer的结构">Transformer的结构</a>
+          <ul>
+            <li><a href="#part-1-encoder">Part 1: Encoder</a></li>
+            <li><a href="#part-2-decoder">Part 2: Decoder</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>参考链接<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ol>
+<li>
+<p><strong>Attention is All You Need</strong> (Vaswani et al., 2017)：<a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreffer ">[PDF]</a></p>
+</li>
+<li>
+<p>一位B站博主的视频讲解：<a href="https://www.bilibili.com/video/BV1xoJwzDESD/?spm_id_from=333.1387.favlist.content.click&amp;vd_source=63cc2e6b0d3af0b51a5072cad8f5af99" target="_blank" rel="noopener noreffer ">《Attention is all you need》论文解读及Transformer架构详细介绍</a></p>
+</li>
+</ol>
+</div>
+        </div>
+    </div>
+<ul>
+<li>序列转导模型（sequence transduction models）：比如翻译任务，输入内容的前后顺序很重要。</li>
+<li>Transformer之前的模型：
+<ul>
+<li>RNN（recurrent neural network，循环神经网络）和CNN（convolutional neural network，卷积神经网络）</li>
+<li>包括编码器（encoder）和解码器（decoder）</li>
+<li>使用注意力机制（attention mechanism）增强</li>
+</ul>
+</li>
+<li>Transformer结构的创新：
+<ul>
+<li>完全摒弃了RNN和CNN（但仍然使用encoder-decoder结构）</li>
+<li>完全基于注意力机制</li>
+</ul>
+</li>
+</ul>
+<h2 id="背景知识">背景知识</h2>
+<h3 id="feedforward-neural-network-fnn-前馈神经网络">Feedforward Neural Network (FNN) 前馈神经网络</h3>
+<p>不适合序列转导任务。</p>
+<p>序列转导任务：分词（Tokenization）→ 词向量表示（Embedding）：把词元用一组N维向量来表示，例如 $[0.2,0.4,-0.4,0.5]$ 这种 → 合并词向量（平均 or 拼接）</p>
+<ul>
+<li>
+<p>平均：完全丢失了词语的顺序</p>
+</li>
+<li>
+<p>拼接：FNN需要固定维度的输入，对不同长度的句子处理效率低下；FNN将句子作为一个整体来处理，无法理解真正的先后顺序的关系。</p>
+</li>
+</ul>
+<h3 id="recurrent-neural-network-rnn-循环神经网络">Recurrent Neural Network (RNN) 循环神经网络</h3>
+<p>RNN能解决的问题：</p>
+<ul>
+<li>构建词序：RNN按时间顺序（token顺序）逐个处理输入</li>
+<li>构建上下文依赖：RNN逐个地喂入词语，并有“记忆”机制</li>
+<li>支持不定长输入：不再需要FNN那种固定长度的输入，句子多长都可以。</li>
+</ul>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>RNN 模拟人说话的过程示例<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>RNN像是在模拟人说话的过程，举个例子说明。（“我爱小猫”）</p>
+<p>$$h_t=g(Wx_t+Uh_{t-1})$$    $$y_t=g(Vh_t)$$</p>
+<p><strong>t1时刻</strong>：</p>
+<ol>
+<li>输入第一个 token “我”</li>
+<li>$x_1$ 与矩阵权重 $W$ 相乘，再加上一个初始化的隐藏状态 $h_0$ 乘上权重矩阵 $U$</li>
+<li>相加的结果输入给激活函数 $g(x)$，得到一个 $h_1$（$h_1$ 是用于下一时刻的输出）</li>
+<li>$h_1$ 与另一个权重矩阵 $V$ 相乘</li>
+<li>相乘结果也经过一个激活函数 $g(x)$，得到 $y_1$（$y_1$ 是 $t_1$ 时刻的实际输出）</li>
+</ol>
+</div>
+        </div>
+    </div>
+<h3 id="encoder-and-decoder-编码器---解码器结构">Encoder and Decoder 编码器 - 解码器结构</h3>
+<p>编码器处理输入，得到一个最终的编码结果；解码器使用这个编码结果，去给出最终的输出。</p>
+<ul>
+<li><strong>编码器</strong>：其实就是一个RNN神经网络去掉了输出 $y$ 的部分，只保留输出 $h$ 的部分。</li>
+<li>编码器将得到一个<strong>上下文向量 $C$（Context vector）</strong>
+<ul>
+<li>上下文向量是对整个输入序列的语义编码，是一个固定长度的向量，涵盖了整个输入文本的语义信息。</li>
+<li>$C$ 等于最后一个时间步的隐藏状态输出 $h_t$</li>
+<li>$C$ 作为 Decoder 的输入，用于生成目标序列。</li>
+</ul>
+</li>
+<li><strong>解码器</strong>的解码方式：
+<ul>
+<li>最简单的方式：第一个时刻，隐藏状态的输入 $s_0$，得到第一个时间步的输出结果（也就是第一个 token 的解码结果 “I”），这个输出结果会送入第二个时间步成为它的输入，而第一个时间步还得到一个隐藏状态的输出结果 $s_1$，$s_1$ 也会送入第二个时间步成为它的输入。进行下去直到得到所有时间步的输出结果。</li>
+<li>另一种方式：由于可能解码到后边的时候，上下文信息已经被稀释了很多，可以给每个时间步重新输入一次上下文向量 $C$。</li>
+</ul>
+</li>
+</ul>
+<h4 id="encode-decode的问题">Encode-Decode的问题</h4>
+<ul>
+<li>处理长序列时，有“遗忘”的问题：远距离依赖信息在传递过程中，会被稀释。</li>
+<li>不同时间步的输入对当前时刻输出的“重要性”问题：所有时间步的输入，在计算当前时刻输出时，被等同对待，忽略了不同时间步对当前时刻输出的重要性可能存在差异。</li>
+</ul>
+<h3 id="attention-mechanism-注意力机制">Attention Mechanism 注意力机制</h3>
+<p>在解码器的部分，给每个时间步重新输入上下文向量C的时候：给每一个时间步输入的上下文向量C的值不一样。</p>
+<p>$$C_i=\sum_{j=1}^n\alpha_{ij}h_j$$</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举例说明<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>比如之前那个例子：“我爱小猫” → “I love little cats”</p>
+<p>$C_0=0.6h_1+0.1h_2+0.2h_3+0.1h_4$</p>
+<p>$C_1=0.2h_1+0.7h_2+0.1h_3+0h_4$</p>
+<p>$C_2=0.1h_1+0.1h_2+0.4h_3+0.4h_4$  → 更“注意”一下“小”旁边的“猫”字</p>
+<p>$C_3=。。。$</p>
+</div>
+        </div>
+    </div>
+<ul>
+<li>依然存在的问题：串行化计算
+<ul>
+<li>递归计算、顺序计算——总要在前一个时间步结束后，才能进行下一个时间步的计算，导致训练过程无法并行化。</li>
+<li>Transformer结构
+<ul>
+<li>摒弃了RNN，为了解决顺序计算问题</li>
+<li>也不使用CNN（CNN可以解决顺序计算的问题，但却又引入了RNN已经解决掉了的远距离依赖随着序列变长而被稀释的问题）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="transformer">Transformer</h2>
+<h3 id="transformer的结构">Transformer的结构</h3>
+<figure><img src="https://paper-assets.alphaxiv.org/figures/1706.03762v7/ModalNet-21.png"
+    alt="RNN Architecture"><figcaption>
+      <p>图1：Transformer 模型架构 (Vaswani et al., 2017)</p>
+    </figcaption>
+</figure>
+
+<p>下文依然以“我爱小猫”翻译成“I love little cats”的翻译为例子来解释。</p>
+<h4 id="part-1-encoder">Part 1: Encoder</h4>
+<ol>
+<li>Input Embedding：首先，经过词嵌入，将每个词都转换成机器能理解的向量形式
+<ul>
+<li>“我爱小猫”这四个字，每一个字都被转换成一个512维的向量</li>
+<li>词嵌入的向量包含词本身的<strong>原始语义信息</strong></li>
+</ul>
+</li>
+<li><strong>Positional Encoding：位置编码</strong>，通过一个公式，给每一个词都生成一个 512 维的位置编码的向量（公式详见 Section 3.5）。生成好的位置编码，直接通过相加的方式，叠加到每个词的词嵌入向量上。
+<ul>
+<li>$PE_{pos,2i}=sin(pos/10000^{2i/d_{model}})$</li>
+<li>$PE_{pos,2i+1}=cos(pos/10000^{2i/d_{model}})$</li>
+<li>为什么位置编码如此复杂（还涉及到傅里叶计算）？不能直接给每个词一个位置编号0, 1, 2…？
+<ul>
+<li>其实有的模型（比如 BERT）就是这样操作的</li>
+<li>但这种编码是标量，信息量太少，模型无法理解，比如“第3个词和第10个词的关系有多远”，尤其是注意力机制是依靠向量计算的（比如点积），而单个数字在向量空间里几乎没法建立复杂的关系。</li>
+<li>所以要把位置信息变成一个高维向量，其中包含的信息就可以很丰富了，比如：能让模型感受到不同位置之间的差异、捕捉到“某两个词之间的位置差”等等相对关系。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Multi-head Attention（多头自注意力）：</strong>
+<ul>
+<li>涉及到 $Q$、$K$、$V$ 矩阵。最后会使矩阵在包含原始的语义信息、上一步增加的位置编码之后，又增添了<strong>上下文信息</strong>。</li>
+</ul>
+</li>
+</ol>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw" aria-hidden="true"></i>单头自注意力机制的解释<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>QKV：Q（query）、K（key）、V（value）</p>
+<ul>
+<li>
+<p>首先，输入的是一个 4*512 的矩阵，代表“我爱小猫”。</p>
+</li>
+<li>
+<p>然后，和三个矩阵，WQ、WK、WV 进行矩阵乘法。这三个矩阵都是 512*512 的尺寸，里面存储的是权重。</p>
+<ul>
+<li>得到三个 4*512 的矩阵作为结果，分别是 Q、K、V</li>
+</ul>
+</li>
+<li>
+<p>将 Q、K、V 三个矩阵代入 Attention 计算公式（Section 3.2.1，公式 1）：</p>
+<p>$$
+\text{Attention}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{d_k}})V
+$$</p>
+<ul>
+<li>得到一个 4*512 的矩阵作为输出。</li>
+</ul>
+</li>
+</ul>
+<p><strong>多头自注意力机制：</strong></p>
+<ul>
+<li>WQ、WK、WV 这三个权重矩阵，大小为 512*64</li>
+<li>于是得到的 Q、K、V 矩阵大小为 4*64</li>
+<li>多头：即 WQ、WK、WV 一共有 8 组（512/64=8）。
+<ul>
+<li>而得到的 Q、K、V 矩阵也一共有8组。</li>
+</ul>
+</li>
+<li>将这 8 组 4*64 的矩阵拼接起来：
+<ul>
+<li>最后得到三个 4*512 大小的矩阵（和单头结果是一样大小的）</li>
+<li>再经过一个线性层</li>
+<li>得到输出，4*512</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+    </div>
+<ol start="4">
+<li>Add &amp; Norm （残差连接 &amp; 归一化）
+<ul>
+<li>残差连接：把经过多头注意力机制处理前那一步的数据，直接相加到经过处理后的数据上——避免如果多头注意力处理得很差时，可能导致模型很差</li>
+<li>归一化：使数值趋于稳定</li>
+</ul>
+</li>
+<li>Feed Forward（前馈神经网络）</li>
+<li>Add &amp; Norm （又一次，残差连接 &amp; 归一化）</li>
+</ol>
+<p>到这一步位置，就得到了编码器最终的输出结果。矩阵维度是没有变化的（这个例子里是 4*512）。</p>
+<h4 id="part-2-decoder">Part 2: Decoder</h4>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-10-24</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/251024-transformers/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://example.org/251024-transformers/" data-hashtag="Transformers"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://example.org/251024-transformers/" data-title="Transformers 模型：《Attention is All You Need》论文笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://example.org/251024-transformers/" data-title="Transformers 模型：《Attention is All You Need》论文笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/251024-transformers/" data-title="Transformers 模型：《Attention is All You Need》论文笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/transformers/">Transformers</a>,&nbsp;<a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>,&nbsp;<a href="/tags/llm/">LLM</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/first_post/" class="prev" rel="prev" title="测试文章-长文本-多媒体"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>测试文章-长文本-多媒体</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.155.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2024 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">RR</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

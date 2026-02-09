@@ -3,9 +3,17 @@
         <title>RR的博客</title>
         <link>http://example.org/</link>
         <description>RR的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 01 Jan 2025 21:40:56 &#43;0100</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 24 Oct 2025 00:00:00 &#43;0000</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Transformers 模型：《Attention is All You Need》论文笔记</title>
+    <link>http://example.org/251024-transformers/</link>
+    <pubDate>Fri, 24 Oct 2025 00:00:00 &#43;0000</pubDate>
+    <author>RR</author>
+    <guid>http://example.org/251024-transformers/</guid>
+    <description><![CDATA[Transformers 模型：《Attention is All You Need》论文笔记]]></description>
+</item>
+<item>
     <title>测试文章-长文本-多媒体</title>
     <link>http://example.org/first_post/</link>
     <pubDate>Wed, 01 Jan 2025 21:40:56 &#43;0100</pubDate>
@@ -22,7 +30,7 @@
     <guid>http://example.org/first_post_3/</guid>
     <description><![CDATA[<!-- <meting-js auto="https://music.163.com/playlist?id=12371120708&amp;uct2=U2FsdGVkX19J74TRLlBbosBaY8iRynMaOREm9YmuEXA=" theme="#448aff"></meting-js> -->
 <!-- <meting-js server="netease" type="song" id="1957902712" theme="#448aff"></meting-js> -->
-<meting-js url="/music/%e9%a3%8e%e6%81%af%e4%ba%88%e6%88%91.mp3" name="风息予我" artist="蜡笔小C/叫我天琦大人" cover="/images/风息予我mp3.jpg" theme="#448aff"></meting-js>
+<!-- <meting-js url="/music/%e9%a3%8e%e6%81%af%e4%ba%88%e6%88%91.mp3" name="风息予我" artist="蜡笔小C/叫我天琦大人" cover="/images/风息予我mp3.jpg" theme="#448aff"></meting-js> -->
 <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=0&id=12371120708&auto=1&height=430"></iframe> -->
 <h2 id="寒露夜离别夜">寒露夜，离别夜</h2>
 <p>带着没了法力的师青玄御铲而行时，贺玄发觉自己虽然身处惊涛骇浪，但另一部分心神仿佛已经到了那幽冥水府。他预想过的多种可能，就像河流汇入大海，最终走向唯一的结局，成为注定要上演的终场一幕。</p>]]></description>
