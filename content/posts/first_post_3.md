@@ -9,7 +9,9 @@ categories = ['test']
 
 <!-- {{< music auto="https://music.163.com/playlist?id=12371120708&uct2=U2FsdGVkX19J74TRLlBbosBaY8iRynMaOREm9YmuEXA=" >}} -->
 
-{{< music netease song 1957902712 >}}
+<!-- {{< music netease song 1957902712 >}} -->
+
+{{< music url="/music/风息予我.mp3" name=风息予我 artist=蜡笔小C/叫我天琦大人 cover="/images/风息予我mp3.jpg" >}}
 
 <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=0&id=12371120708&auto=1&height=430"></iframe> -->
 
