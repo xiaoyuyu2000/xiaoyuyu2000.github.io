@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on RR的博客</title>
+    <link>http://example.org/tags/</link>
+    <description>Recent content in Tags on RR的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 01 Jan 2025 21:40:56 +0100</lastBuildDate>
+    <atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fiction</title>
+      <link>http://example.org/tags/fiction/</link>
+      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
+      <guid>http://example.org/tags/fiction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hugo</title>
+      <link>http://example.org/tags/hugo/</link>
+      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
+      <guid>http://example.org/tags/hugo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Test</title>
+      <link>http://example.org/tags/test/</link>
+      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
+      <guid>http://example.org/tags/test/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>歌曲</title>
+      <link>http://example.org/tags/%E6%AD%8C%E6%9B%B2/</link>
+      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
+      <guid>http://example.org/tags/%E6%AD%8C%E6%9B%B2/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
