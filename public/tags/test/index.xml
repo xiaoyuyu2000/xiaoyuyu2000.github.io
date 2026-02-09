@@ -6,8 +6,15 @@
     <description>Recent content in Test on RR的博客</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 08 Feb 2026 21:40:56 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 09 Feb 2026 02:51:56 +0100</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/test/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>测试文章-不要点进来</title>
+      <link>http://localhost:1313/first_post_2/</link>
+      <pubDate>Mon, 09 Feb 2026 02:51:56 +0100</pubDate>
+      <guid>http://localhost:1313/first_post_2/</guid>
+      <description>&lt;p&gt;2025蛇年新春贺文&lt;/p&gt;&#xA;&lt;p&gt;思考关于贺生都能做些什么&lt;/p&gt;&#xA;&lt;p&gt;或者是写一篇新年贺文？&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;有个灵感，贺玄把骨鱼赋予了一部分自主意志？或者让骨鱼模仿他的家人们？骨鱼吵架，代表贺玄内心不同想法之间的冲突？&#xA;一条陪伴他几百年的骨鱼？和他之间产生的羁绊？？骨鱼从混沌、懵懂逐渐有了灵性？&lt;/p&gt;</description>
+    </item>
     <item>
       <title>测试文章-长文本-多媒体</title>
       <link>http://localhost:1313/first_post/</link>
