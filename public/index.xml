@@ -1,0 +1,18 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>RR的博客</title>
+        <link>http://localhost:1313/</link>
+        <description>RR的博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 08 Feb 2026 21:40:56 &#43;0100</lastBuildDate>
+            <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>测试文章-长文本-多媒体</title>
+    <link>http://localhost:1313/first_post/</link>
+    <pubDate>Sun, 08 Feb 2026 21:40:56 &#43;0100</pubDate>
+    <author>RR</author>
+    <guid>http://localhost:1313/first_post/</guid>
+    <description><![CDATA[<h2 id="番外">番外</h2>
+<p>摊子叫“贺记小食”，卖些小吃,似乎是老板一家三口坐在一张靠里的小桌上,一名<span style="color: #1cab00">身形苗条、颇有姿色的女郎</span>穿行在桌子里忙活，<span style="color: #8d5e01">老板喊她别忙了过去坐下</span>她也不听,只道“就来”,<span style="color: #1cab00">声如黄莺</span>。其余桌子三两两坐着些客人,不过看来都只是冲那妙龄少女来的,随便坐坐聊聊，不一会儿就回家了。毕竟，今日是上元节。</p>]]></description>
+</item>
+</channel>
+</rss>

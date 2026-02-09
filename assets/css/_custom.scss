@@ -1,0 +1,33 @@
+// 设置全局字体为宋体（衬线体）
+body {
+    font-family: 'SimSun', '宋体', serif;
+}
+
+// 如果需要为所有文本元素应用
+* {
+    font-family: 'SimSun', '宋体', serif;
+}
+
+// 或者更完整的方案，保留代码块使用等宽字体
+body {
+    font-family: '宋体', 'SimSun', serif;
+}
+
+code,
+pre {
+    font-family: 'Courier New', monospace;
+}
+
+// 为段落添加首行缩进
+.indent-text p {
+  text-indent: 2em;
+}
+
+// 为歌词添加特殊样式
+.lyrics {
+    text-align: center;      /* 文字居中 */
+    font-style: italic;      /* 斜体，增加文学感 */
+    line-height: 2;          /* 增加行间距，不拥挤 */
+    color: #555;             /* 颜色稍微淡一点，显高级 */
+    margin: 2em 0;           /* 上下留出充足的空间 */
+}
