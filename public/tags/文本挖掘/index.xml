@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>文本挖掘 on RR的博客</title>
+    <link>http://example.org/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/</link>
+    <description>Recent content in 文本挖掘 on RR的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 23 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://example.org/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Text Mining | 03: Vector Semantics | 语义向量与词嵌入</title>
+      <link>http://example.org/250923-tm-w3/</link>
+      <pubDate>Tue, 23 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/250923-tm-w3/</guid>
+      <description>关于语义向量、word2vec，以及词嵌入（word embedding）的深入理解。</description>
+    </item>
+    <item>
+      <title>Text Mining | 02: Preprocessing | 预处理</title>
+      <link>http://example.org/250916-tm-w2/</link>
+      <pubDate>Tue, 16 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/250916-tm-w2/</guid>
+      <description>&lt;p&gt;Raw text →&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;通过 &lt;strong&gt;OCR（Optical Character Recognition）&lt;/strong&gt;：将原始文本，比如手写文本，经过扫描，生成数字文件（digitized documents）&lt;/li&gt;&#xA;&lt;li&gt;也有一些本来就是数字形式的原始文本，比如：HTML、text 文件、PDF、MS Word&lt;/li&gt;&#xA;&lt;li&gt;所有的文本都需要一些清理（clean-up）&#xA;&lt;ul&gt;&#xA;&lt;li&gt;图片、表格等；设计的格式、排版；声明、版权说明；headers、footers；分列、页面空白；&lt;/li&gt;&#xA;&lt;li&gt;以及：OCR errors；character encoding errors&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;character encoding：计算机如何将文本呈现成人类理解的方式&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;semi-structured text：markup（HTML、XML、json）&#xA;&lt;ul&gt;&#xA;&lt;li&gt;markup：文本文件中的元数据（meta-information），和文本内容能区分出来。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;character-encoding&#34;&gt;Character encoding&lt;/h2&gt;&#xA;&lt;h3 id=&#34;ascii&#34;&gt;ASCII&lt;/h3&gt;&#xA;&lt;p&gt;二级制序列 → 字符（character）&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Text Mining | 01: Introduction</title>
+      <link>http://example.org/250907-tm-w1/</link>
+      <pubDate>Sun, 07 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/250907-tm-w1/</guid>
+      <description>&lt;p&gt;Text mining: Automatic extraction of knowledge from text&#xA;从文本中自动地提取知识（信息）&lt;/p&gt;&#xA;&lt;p&gt;Text: unstructured; Knowledge: structured&lt;/p&gt;&#xA;&lt;p&gt;Big text data —(Text retrievl)→ Small relevant data —(Text mining)→ Knowledge → Many applications&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Challenges of text data:&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

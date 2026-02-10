@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Text Mining | 02: Preprocessing | 预处理 - RR的博客</title><meta name="Description" content="RR的博客"><meta property="og:url" content="http://example.org/250916-tm-w2/">
+  <meta property="og:site_name" content="RR的博客">
+  <meta property="og:title" content="Text Mining | 02: Preprocessing | 预处理">
+  <meta property="og:description" content="Raw text →
+通过 OCR（Optical Character Recognition）：将原始文本，比如手写文本，经过扫描，生成数字文件（digitized documents） 也有一些本来就是数字形式的原始文本，比如：HTML、text 文件、PDF、MS Word 所有的文本都需要一些清理（clean-up） 图片、表格等；设计的格式、排版；声明、版权说明；headers、footers；分列、页面空白； 以及：OCR errors；character encoding errors character encoding：计算机如何将文本呈现成人类理解的方式 semi-structured text：markup（HTML、XML、json） markup：文本文件中的元数据（meta-information），和文本内容能区分出来。 Character encoding ASCII 二级制序列 → 字符（character）">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-09-16T00:00:00+00:00">
+    <meta property="article:tag" content="文本挖掘">
+    <meta property="article:tag" content="课程笔记">
+    <meta property="og:image" content="http://example.org/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/logo.png">
+  <meta name="twitter:title" content="Text Mining | 02: Preprocessing | 预处理">
+  <meta name="twitter:description" content="Raw text →
+通过 OCR（Optical Character Recognition）：将原始文本，比如手写文本，经过扫描，生成数字文件（digitized documents） 也有一些本来就是数字形式的原始文本，比如：HTML、text 文件、PDF、MS Word 所有的文本都需要一些清理（clean-up） 图片、表格等；设计的格式、排版；声明、版权说明；headers、footers；分列、页面空白； 以及：OCR errors；character encoding errors character encoding：计算机如何将文本呈现成人类理解的方式 semi-structured text：markup（HTML、XML、json） markup：文本文件中的元数据（meta-information），和文本内容能区分出来。 Character encoding ASCII 二级制序列 → 字符（character）">
+<meta name="application-name" content="RR的网站">
+<meta name="apple-mobile-web-app-title" content="RR的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/250916-tm-w2/" /><link rel="prev" href="http://example.org/250907-tm-w1/" /><link rel="next" href="http://example.org/250923-tm-w3/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Text Mining | 02: Preprocessing | 预处理",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/250916-tm-w2\/"
+        },"genre": "posts","keywords": "文本挖掘, 课程笔记","wordcount":  2241 ,
+        "url": "http:\/\/example.org\/250916-tm-w2\/","datePublished": "2025-09-16T00:00:00+00:00","dateModified": "2025-09-16T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "RR"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Text Mining | 02: Preprocessing | 预处理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>RR</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/text-mining-%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Text Mining 课程笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-09-16">2025-09-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2241 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#character-encoding">Character encoding</a>
+      <ul>
+        <li><a href="#ascii">ASCII</a></li>
+        <li><a href="#unicode">Unicode</a></li>
+        <li><a href="#关于实际中的-data-cleaning">关于实际中的 Data cleaning</a></li>
+      </ul>
+    </li>
+    <li><a href="#regular-expressions">Regular expressions</a></li>
+    <li><a href="#tokenization--sentence-splitting">Tokenization &amp; sentence splitting</a>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#tokenization">Tokenization</a></li>
+        <li><a href="#subword-tokenizers">Subword tokenizers</a>
+          <ul>
+            <li><a href="#byte-pair-encodingbpe">Byte-pair encoding（BPE）</a></li>
+            <li><a href="#wordpiecesentencepiece">WordPiece/SentencePiece</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#lemmatization--stemming">Lemmatization &amp; Stemming</a>
+      <ul>
+        <li><a href="#lemma-词形">Lemma 词形</a></li>
+        <li><a href="#stem-词干">Stem 词干</a></li>
+      </ul>
+    </li>
+    <li><a href="#edit-distance">Edit distance</a>
+      <ul>
+        <li><a href="#levenshtein-distance-algorithm">Levenshtein distance algorithm</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Raw text →</p>
+<ul>
+<li>通过 <strong>OCR（Optical Character Recognition）</strong>：将原始文本，比如手写文本，经过扫描，生成数字文件（digitized documents）</li>
+<li>也有一些本来就是数字形式的原始文本，比如：HTML、text 文件、PDF、MS Word</li>
+<li>所有的文本都需要一些清理（clean-up）
+<ul>
+<li>图片、表格等；设计的格式、排版；声明、版权说明；headers、footers；分列、页面空白；</li>
+<li>以及：OCR errors；character encoding errors
+<ul>
+<li><strong>character encoding：计算机如何将文本呈现成人类理解的方式</strong></li>
+</ul>
+</li>
+<li>semi-structured text：markup（HTML、XML、json）
+<ul>
+<li>markup：文本文件中的元数据（meta-information），和文本内容能区分出来。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="character-encoding">Character encoding</h2>
+<h3 id="ascii">ASCII</h3>
+<p>二级制序列 → 字符（character）</p>
+<p>ASCII (American Standard Code for Information Interchange) 是 7 位的编码方式，基于英文字母。</p>
+<h3 id="unicode">Unicode</h3>
+<p>Unicode 是所有语言系统、全球通用（universal）的标准。</p>
+<p>不依赖于任何平台、软件、供应商（vendor）。</p>
+<p>通过软件（app、editor、web browser）中的实现（例如 <strong>UTF-8</strong>）来将编码解析成字符。而软件来决定实际的呈现（大小、形状、字体、风格）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Read and write UTF-8 in Python 3</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">raw</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">text</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">clean</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">clean</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><a href="https://docs.python.org/3/library/functions.html#open" target="_blank" rel="noopener noreffer ">https://docs.python.org/3/library/functions.html#open</a>
+<h3 id="关于实际中的-data-cleaning">关于实际中的 Data cleaning</h3>
+<p>Digitalizaiton, data conversion &amp; cleaning：是第一步。很有必要、耗时间、会出错、常常复杂。</p>
+<p>数据收集与清理的过程一般比较漫长。</p>
+<h2 id="regular-expressions">Regular expressions</h2>
+<p>正则表达式：removing noise, privacy sensitive information, markup。</p>
+<p>用来捕捉、计数一个文件或字符串里面符合的模式；或者提取符合的模式。</p>
+<ul>
+<li><code>Spacy</code></li>
+</ul>
+<h2 id="tokenization--sentence-splitting">Tokenization &amp; sentence splitting</h2>
+<h3 id="定义">定义</h3>
+<ul>
+<li>Token：word or punctuation（单词或标点符号）</li>
+<li>Term：用作特征的 token，一般是 normalized form（小写）</li>
+<li>Token count：包含重复</li>
+<li>Vocabulary size |V|：不重复的 term 数。把单词用作 feature 时即为 feature size。</li>
+</ul>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Example<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><blockquote>
+<p><strong>This issue is</strong> <strong>not just local — it</strong> is <strong>a global</strong> <strong>problem.</strong></p>
+</blockquote>
+<p>Token count: 13</p>
+<p>Unique terms: 10（不包括标点和重复的单词）</p>
+<p>Vocabulary size |V|: 10（同上）</p>
+</div>
+        </div>
+    </div>
+<h3 id="tokenization">Tokenization</h3>
+<p>将文本分割成 tokens。</p>
+<ol>
+<li>去掉标点</li>
+<li>按空格分割文本</li>
+</ol>
+<h3 id="subword-tokenizers">Subword tokenizers</h3>
+<p>不再把 tokens 定义成按空格分开的单词或是中文的汉字，而是根据数据，能自动判断哪些是 tokens。</p>
+<ul>
+<li>尤其适合处理不认识的新词
+<ul>
+<li>回顾 Heap&rsquo;s Law：在某集合上训练模型时，新添加的词会越来越多</li>
+</ul>
+</li>
+<li>解决方案： sets of tokens → subwords
+<ul>
+<li>把低频词分成词汇表里存在的 tokens。</li>
+<li>subwords 本身可能并不是单词
+<ul>
+<li>proportionate → prop  portion  ate</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Byte-pair encoding（BPE）</li>
+<li>WordPiece/SentenePiece</li>
+</ul>
+<h4 id="byte-pair-encodingbpe">Byte-pair encoding（BPE）</h4>
+<ol>
+<li>begin with a vocabulary</li>
+<li>检查要训练的 corpus，选择相邻着出现的频率最高的两个符号</li>
+<li>把这两个符号连起来（例如：t、h → th）添加进 vocabulary</li>
+<li>把所有相连着出现的这两个符号，都替换成连起来的新字符串（例如‘th‘）</li>
+<li>重复第二步，创造新的越来越长的字符串</li>
+<li>直到完成了 k 次，创建了 k 个新的 tokens（k 是参数）</li>
+</ol>
+<p>最后，vocabulary 里：原有的字符 + k 个新 tokens</p>
+<h4 id="wordpiecesentencepiece">WordPiece/SentencePiece</h4>
+<p>基于 BPE，高效的实现。</p>
+<p>vocabulary size 固定，优化 tokens 的选择。</p>
+<p>高频出现的词语成为 token，低频词被分割成 subwords（例如：Gorlaeus → Go + ##rl + ##ae + ##us’）。</p>
+<h2 id="lemmatization--stemming">Lemmatization &amp; Stemming</h2>
+<ul>
+<li>Lemma（词形）</li>
+<li>Stem（词干）</li>
+<li>减少 word vector space 中的 features 总数（就是减少单词数量的意思）</li>
+<li>更好地泛化，尤其是小数据集</li>
+</ul>
+<h3 id="lemma-词形">Lemma 词形</h3>
+<p>定义：dictionary form of a word</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举例：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>动词的原形（infinitive of verbs）
+<ul>
+<li>think ← thinks, thinking, thought</li>
+</ul>
+</li>
+<li>名词的单数形式（singular form of nouns）
+<ul>
+<li>mouse ← mice</li>
+<li>computer ← computers</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+    </div>
+<p>Lemmatization 需要词典。</p>
+<h3 id="stem-词干">Stem 词干</h3>
+<p>定义：the portion of a word that is common to a group of words with the same prefix (base/root)</p>
+<p>相关的单词会有相同的词干。</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举例：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>computer, computing, computers, compute</p>
+<p>→ ‘comput’</p>
+</div>
+        </div>
+    </div>
+<p>词干自己不一定是一个存在的单词。</p>
+<p>在长得不一样的单词中，词干总是那个一直不变的形式。就比如前一个例子里的那个“comput”。</p>
+<hr>
+<p>我们一般总是更倾向于 lemma 而不是 stem。
+非常小的集合，或是资源很少的语言，stemming 的效果才会更好。</p>
+<p>Note：
+因为 lemmazation 基于字典，把词还原成原形，结果是真实的单词，能看懂含义。还擅长不规则变形的词形还原，比如 better → good。
+Stemming 是基于规则，比较生硬，得到的结果往往都不是真实的单词，人看不懂含义。不擅长不规则变形的单词，better 可能没法还原成 good。
+但是，低资源的语言（如某些土著语言、濒危语言）没有字典、没有标注数据。</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>用一个例子来总结<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Original text:</p>
+<blockquote>
+<p>Such an analysis can reveal features that are not easily visible from the variations in the individual genes and can lead to a picture of expression that is more biologically transparent and accessible to interpretation</p>
+</blockquote>
+<ol>
+<li>Lematizer:
+Such an analysis can reveal feature that <strong>be</strong> not easily visible from the variation in the individual <strong>gene</strong> and can lead to a picture of expression that <strong>be</strong> more biologically transparent and accessible to interpretation</li>
+<li>Stemmer:
+Such an <strong>analysi</strong> can reveal <strong>featur</strong> that <strong>ar</strong> not <strong>easili visibl</strong> from the <strong>variat</strong> in the <strong>individu gene</strong> and can lead to a <strong>pictur</strong> of <strong>express</strong> that is more <strong>biolog transpar</strong> and <strong>access</strong> to <strong>interpret</strong></li>
+<li>Subword tokenizer:
+Such an analysis can reveal features that are not easily visible from the variations in the individual genes and can lead to a picture of expression that is more biological <strong>##ly</strong> transparent and accessible to interpretation</li>
+</ol>
+</div>
+        </div>
+    </div>
+<h2 id="edit-distance">Edit distance</h2>
+<p>衡量字符串相似度时，如何处理拼写错误、同一个词不同的拼写方式呢？</p>
+<p>最小编辑距离（minimum edit distance）：把一个字符串变成另一个字符串所需要的最小编辑操作次数</p>
+<ul>
+<li>cost of 1：
+<ul>
+<li><strong>insertion</strong>
+<ul>
+<li>cat → coat</li>
+</ul>
+</li>
+<li><strong>deletion</strong>
+<ul>
+<li>cat → at</li>
+</ul>
+</li>
+<li><strong>substitution</strong>（替换）
+<ul>
+<li>cat → cut</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em>free：copying charaters</em></li>
+</ul>
+<p>把一个单词变成另一个单词，有很多路径，但总有一条路最简单（cheapest）</p>
+<p>比如：sheep → ship</p>
+<ul>
+<li>
+<p>copy ‘sh’, delete ‘e’, substitute ‘e’ by ‘p’ (edit distance = 2)</p>
+</li>
+<li>
+<p>copy ‘sh’, delete ‘e’, delete ‘e’, insert’i’, copy ‘p’ (edit distance = 3)</p>
+</li>
+<li>
+<p>计算最小编辑距离：Dynamic programming。是一类算法，用一种基于表格的方法来解决问题。</p>
+</li>
+</ul>
+<h3 id="levenshtein-distance-algorithm">Levenshtein distance algorithm</h3>
+<ul>
+<li>画一个表格。左边第一列是原本的单词，上边第一行是目标单词。
+<ul>
+<li>往右走：Insert</li>
+<li>往下走：Delete</li>
+<li>走对角线：Substitute or Copy</li>
+<li>选择最小消耗的行动</li>
+<li>直到走到右下角</li>
+</ul>
+</li>
+</ul>
+<p>消耗依然是：Insert(1), Delete(1), Substitute(1), Copy(0)</p>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/course_note/tm-02-1.png"
+        data-srcset="/images/course_note/tm-02-1.png, /images/course_note/tm-02-1.png 1.5x, /images/course_note/tm-02-1.png 2x"
+        data-sizes="auto"
+        alt="/images/course_note/tm-02-1.png"
+        title="/images/course_note/tm-02-1.png" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/course_note/tm-02-2.png"
+        data-srcset="/images/course_note/tm-02-2.png, /images/course_note/tm-02-2.png 1.5x, /images/course_note/tm-02-2.png 2x"
+        data-sizes="auto"
+        alt="/images/course_note/tm-02-2.png"
+        title="/images/course_note/tm-02-2.png" />
+<figure><a class="lightgallery" href="/images/course_note/tm-02-3.png" title="/images/course_note/tm-02-3.png" data-thumbnail="/images/course_note/tm-02-3.png" data-sub-html="<h2>图片来源：Leiden University Text Mining Course Slides</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/course_note/tm-02-3.png"
+            data-srcset="/images/course_note/tm-02-3.png, /images/course_note/tm-02-3.png 1.5x, /images/course_note/tm-02-3.png 2x"
+            data-sizes="auto"
+            alt="/images/course_note/tm-02-3.png" />
+    </a><figcaption class="image-caption">图片来源：Leiden University Text Mining Course Slides</figcaption>
+    </figure>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-09-16</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/250916-tm-w2/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://example.org/250916-tm-w2/" data-hashtag="文本挖掘"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://example.org/250916-tm-w2/" data-title="Text Mining | 02: Preprocessing | 预处理"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://example.org/250916-tm-w2/" data-title="Text Mining | 02: Preprocessing | 预处理"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/250916-tm-w2/" data-title="Text Mining | 02: Preprocessing | 预处理"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/">文本挖掘</a>,&nbsp;<a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/250907-tm-w1/" class="prev" rel="prev" title="Text Mining | 01: Introduction"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Text Mining | 01: Introduction</a>
+            <a href="/250923-tm-w3/" class="next" rel="next" title="Text Mining | 03: Vector Semantics | 语义向量与词嵌入">Text Mining | 03: Vector Semantics | 语义向量与词嵌入<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.155.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2024 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">RR</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

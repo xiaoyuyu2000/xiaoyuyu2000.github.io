@@ -6,8 +6,36 @@
     <description>Recent content in Tags on RR的博客</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 24 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>模型量化</title>
+      <link>http://example.org/tags/%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96/</link>
+      <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CV</title>
+      <link>http://example.org/tags/cv/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/cv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Transformer</title>
+      <link>http://example.org/tags/transformer/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/transformer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>论文阅读</title>
+      <link>http://example.org/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <description></description>
+    </item>
     <item>
       <title>LLM</title>
       <link>http://example.org/tags/llm/</link>
@@ -16,45 +44,38 @@
       <description></description>
     </item>
     <item>
-      <title>Transformers</title>
-      <link>http://example.org/tags/transformers/</link>
+      <title>NLP</title>
+      <link>http://example.org/tags/nlp/</link>
       <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://example.org/tags/transformers/</guid>
+      <guid>http://example.org/tags/nlp/</guid>
       <description></description>
     </item>
     <item>
-      <title>论文</title>
-      <link>http://example.org/tags/%E8%AE%BA%E6%96%87/</link>
-      <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://example.org/tags/%E8%AE%BA%E6%96%87/</guid>
+      <title>Word2vec</title>
+      <link>http://example.org/tags/word2vec/</link>
+      <pubDate>Tue, 23 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/word2vec/</guid>
       <description></description>
     </item>
     <item>
-      <title>Fiction</title>
-      <link>http://example.org/tags/fiction/</link>
-      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
-      <guid>http://example.org/tags/fiction/</guid>
+      <title>文本挖掘</title>
+      <link>http://example.org/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/</link>
+      <pubDate>Tue, 23 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/</guid>
       <description></description>
     </item>
     <item>
-      <title>Hugo</title>
-      <link>http://example.org/tags/hugo/</link>
-      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
-      <guid>http://example.org/tags/hugo/</guid>
+      <title>词嵌入</title>
+      <link>http://example.org/tags/%E8%AF%8D%E5%B5%8C%E5%85%A5/</link>
+      <pubDate>Tue, 23 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/%E8%AF%8D%E5%B5%8C%E5%85%A5/</guid>
       <description></description>
     </item>
     <item>
-      <title>Test</title>
-      <link>http://example.org/tags/test/</link>
-      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
-      <guid>http://example.org/tags/test/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>歌曲</title>
-      <link>http://example.org/tags/%E6%AD%8C%E6%9B%B2/</link>
-      <pubDate>Wed, 01 Jan 2025 21:40:56 +0100</pubDate>
-      <guid>http://example.org/tags/%E6%AD%8C%E6%9B%B2/</guid>
+      <title>课程笔记</title>
+      <link>http://example.org/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 23 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/</guid>
       <description></description>
     </item>
   </channel>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记 - RR的博客</title><meta name="Description" content="RR的博客"><meta property="og:url" content="http://example.org/251026-vit/">
+  <meta property="og:site_name" content="RR的博客">
+  <meta property="og:title" content="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记">
+  <meta property="og:description" content="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-26T00:00:00+00:00">
+    <meta property="article:tag" content="Transformer">
+    <meta property="article:tag" content="论文阅读">
+    <meta property="article:tag" content="CV">
+    <meta property="og:image" content="http://example.org/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/logo.png">
+  <meta name="twitter:title" content="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记">
+  <meta name="twitter:description" content="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记">
+<meta name="application-name" content="RR的网站">
+<meta name="apple-mobile-web-app-title" content="RR的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/251026-vit/" /><link rel="prev" href="http://example.org/251024-transformers/" /><link rel="next" href="http://example.org/251027-quantization/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/251026-vit\/"
+        },"genre": "posts","keywords": "Transformer, 论文阅读, CV","wordcount":  1162 ,
+        "url": "http:\/\/example.org\/251026-vit\/","datePublished": "2025-10-26T00:00:00+00:00","dateModified": "2025-10-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "RR"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>RR</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>论文阅读</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-10-26">2025-10-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1162 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简单介绍">简单介绍</a>
+      <ul>
+        <li><a href="#motivation">Motivation</a></li>
+      </ul>
+    </li>
+    <li><a href="#vision-transformer-vit-的主要思想">Vision Transformer (ViT) 的主要思想</a></li>
+    <li><a href="#vit的结构">ViT的结构</a>
+      <ul>
+        <li><a href="#vit结构的详细解释">ViT结构的详细解释</a></li>
+        <li><a href="#图片尺寸与序列大小">图片尺寸与序列大小</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>原始论文<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p><strong>An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale</strong> (Dosovitskiy et al., 2021): <a href="https://arxiv.org/abs/2010.11929" target="_blank" rel="noopener noreffer ">[PDF]</a></p>
+<ul>
+<li>一张图片就相当于 16x16 的（若干）单词——用于大规模图形识别的 Transformer</li>
+</ul></div>
+        </div>
+    </div>
+<h2 id="简单介绍">简单介绍</h2>
+<p>这篇文章主要任务，就是通过 Transformer 结构和自注意力机制，把计算机视觉的任务，当做自然语言处理的任务去完成。主要思想就是把图片分成若干个 16x16 尺寸的 patches，把每个 patch 都当成 token，然后用监督学习训练图片分类的任务。</p>
+<h3 id="motivation">Motivation</h3>
+<ul>
+<li>Transformer 适用于 NLP（natural language processing，自然语言处理）任务</li>
+<li>而 CNN（convolutional neural network，卷积神经网络）依然是计算机视觉（computer visoin，CV）领域的主流。
+<ul>
+<li>于是很多工作在尝试将 Transformer 的自注意力机制用于 CV 领域。</li>
+</ul>
+</li>
+</ul>
+<h2 id="vision-transformer-vit-的主要思想">Vision Transformer (ViT) 的主要思想</h2>
+<div class="details admonition quote open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-quote-right fa-fw" aria-hidden="true"></i>Chapter 1<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Inspired by the Transformer scaling successes in NLP, we experiment with <strong>applying a standard Transformer directly to images</strong>, with the fewest possible modifications. To do so, we <strong>split an image into patches</strong> and <strong>provide the sequence of linear embeddings of these patches as an input to a Transformer</strong>. Image patches are treated the same way as <em>tokens (words) in an NLP application</em>. We train the model on <em>image classification</em> in <em>supervised</em> fashion.</div>
+        </div>
+    </div>
+<p>把 Transformer 直接用于图片：首先把图片分割成 patches，然后把这些 patches的线性嵌入（linear embeddings）的序列作为 Transformer 结构的输入。</p>
+<p>图片的 patches 就跟 NLP 任务里的词元（tokens）（也就是单词）类似：每个 patch 就相当于 NLP 里的一个单词。</p>
+<p>我们用监督学习的方式训练模型用于图片分类的任务。</p>
+<ul>
+<li>序列长度的变化：（序列长度等于 patch 的个数）
+<ul>
+<li>一个图片原本的尺寸：224x224=50124 个像素</li>
+<li>把它分成若干个 16x16 尺寸的 patches 之后：
+<ul>
+<li>每一行和每一列的“序列数目”就变成了：224/16=14</li>
+<li>所以，序列长度就从原先的 50124 变成了 14x14=196</li>
+<li>（就相当于 NLP 中，一个 196 个 token 的语句）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="vit的结构">ViT的结构</h2>
+<p>尽可能地保持原始的 Transformer 结构不更改——这是 ViT 的一项优势。</p>
+<p>结构图如下：（来自论文 Figure 1）</p>
+<figure><img src="https://paper-assets.alphaxiv.org/figures/2010.11929v2/img-0.jpeg"
+    alt="图1：ViT 模型架构 (Dosovitskiy et al., 2021)"><figcaption>
+      <p>图1：ViT 模型架构 (Dosovitskiy et al., 2021)</p>
+    </figcaption>
+</figure>
+
+<h3 id="vit结构的详细解释">ViT结构的详细解释</h3>
+<ol>
+<li>
+<p>首先，给定一张图，把这张图分解成了若干个 patch</p>
+</li>
+<li>
+<p>Linear Projection of Flattened Patches（线性投射层）：</p>
+<p>a. 把这些 patch 当成一个序列，每个 patch 都会经过一个线性投射层的操作，得到一个特征，也就是 Patch + Position Embedding</p>
+<ul>
+<li>相当于 NLP 中的原始语义+位置编码</li>
+<li>得到的结果就相当于 NLP 中的 token</li>
+</ul>
+<p>b. 利用 BERT 的 Extra learnable embedding 的特殊字符 cls 分类字符：</p>
+<ul>
+<li>也就是结构图中的星号部分的“token”，位置编码永远是 0</li>
+<li>我们只需要根据它的输出，作最后图片分类的判断。</li>
+</ul>
+</li>
+<li>
+<p>Transformer Encoder：上一步得到的结果作为 Transformer 编码器的输入</p>
+</li>
+<li>
+<p>MLP Head：通用的分类头</p>
+</li>
+<li>
+<p>分类：交叉熵函数</p>
+</li>
+</ol>
+<h3 id="图片尺寸与序列大小">图片尺寸与序列大小</h3>
+<p>原先：224x224x3</p>
+<p>每个 16x16x3 的 patch：16x16x3=768 个像素大小</p>
+<p>总共分成了多少个 patch：224/16=14，14x14=196 个 patch （等于输入的序列大小）</p>
+<p>——原先的图片被分成了 196 个 patch，每个 patch 的维度是 768</p>
+<p>（NLP 任务中：一句话包含了若干个 token，每个 token 的维度是 512）</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw" aria-hidden="true"></i>矩阵尺寸<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>输入：X → 196x768</li>
+<li>经过线性投射层之后：197x768（加上了那个 Extra learnable embedding 的特殊字符 cls 分类字符，也就是加了 1）</li>
+</ul>
+<p>多头自注意力：</p>
+<ul>
+<li>总共 12 个头
+<ul>
+<li>768/64=12</li>
+<li>而 NLP 中：是 512/64=8 个头</li>
+</ul>
+</li>
+</ul></div>
+        </div>
+    </div>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-10-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/251026-vit/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://example.org/251026-vit/" data-hashtag="Transformer"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://example.org/251026-vit/" data-title="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://example.org/251026-vit/" data-title="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/251026-vit/" data-title="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/transformer/">Transformer</a>,&nbsp;<a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>,&nbsp;<a href="/tags/cv/">CV</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/251024-transformers/" class="prev" rel="prev" title="Transformers 模型：《Attention is All You Need》论文笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Transformers 模型：《Attention is All You Need》论文笔记</a>
+            <a href="/251027-quantization/" class="next" rel="next" title="模型量化技术">模型量化技术<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.155.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2024 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">RR</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Text Mining | 01: Introduction - RR的博客</title><meta name="Description" content="RR的博客"><meta property="og:url" content="http://example.org/250907-tm-w1/">
+  <meta property="og:site_name" content="RR的博客">
+  <meta property="og:title" content="Text Mining | 01: Introduction">
+  <meta property="og:description" content="Text mining: Automatic extraction of knowledge from text 从文本中自动地提取知识（信息）
+Text: unstructured; Knowledge: structured
+Big text data —(Text retrievl)→ Small relevant data —(Text mining)→ Knowledge → Many applications
+Challenges of text data:">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-09-07T00:00:00+00:00">
+    <meta property="article:tag" content="文本挖掘">
+    <meta property="article:tag" content="课程笔记">
+    <meta property="og:image" content="http://example.org/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/logo.png">
+  <meta name="twitter:title" content="Text Mining | 01: Introduction">
+  <meta name="twitter:description" content="Text mining: Automatic extraction of knowledge from text 从文本中自动地提取知识（信息）
+Text: unstructured; Knowledge: structured
+Big text data —(Text retrievl)→ Small relevant data —(Text mining)→ Knowledge → Many applications
+Challenges of text data:">
+<meta name="application-name" content="RR的网站">
+<meta name="apple-mobile-web-app-title" content="RR的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/250907-tm-w1/" /><link rel="next" href="http://example.org/250916-tm-w2/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Text Mining | 01: Introduction",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/250907-tm-w1\/"
+        },"genre": "posts","keywords": "文本挖掘, 课程笔记","wordcount":  1355 ,
+        "url": "http:\/\/example.org\/250907-tm-w1\/","datePublished": "2025-09-07T00:00:00+00:00","dateModified": "2025-09-07T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "RR"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Text Mining | 01: Introduction</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>RR</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/text-mining-%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Text Mining 课程笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-09-07">2025-09-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1355 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#text-mining-pipeline">Text mining pipeline</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#text-classificationclustering">Text classification/clustering</a></li>
+    <li><a href="#sequence-labelling--named-entity-recognition">Sequence labelling (= named entity recognition)</a></li>
+    <li><a href="#text-to-text-generation">Text-to-text generation</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#文本作为分类对象--文本作为序列sequence">文本作为分类对象 &amp; 文本作为序列（sequence）</a></li>
+    <li><a href="#文本分类">文本分类</a>
+      <ul>
+        <li><a href="#zipfs-law">Zipf’s Law</a></li>
+        <li><a href="#文本的稠密表示">文本的稠密表示</a></li>
+      </ul>
+    </li>
+    <li><a href="#文本序列">文本序列</a></li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#bert">BERT</a></li>
+        <li><a href="#gpt">GPT</a></li>
+        <li><a href="#encoder-decoder-models">Encoder-decoder models</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Text mining: Automatic extraction of knowledge from text
+从文本中自动地提取知识（信息）</p>
+<p>Text: unstructured; Knowledge: structured</p>
+<p>Big text data —(Text retrievl)→ Small relevant data —(Text mining)→ Knowledge → Many applications</p>
+<p><strong>Challenges of text data:</strong></p>
+<ol>
+<li>unstructured</li>
+<li>noisy (source, content, labels)</li>
+<li>language is infinite
+<ul>
+<li><strong>Heap’s Law</strong>: 语料库（corpus）很小的时候，新词的数目增长非常快，而且会无限地继续增长。</li>
+</ul>
+</li>
+<li>language is ambiguous</li>
+</ol>
+<h2 id="text-mining-pipeline">Text mining pipeline</h2>
+<ol>
+<li>Information Retrival (IR)</li>
+<li>Pre-processing</li>
+<li>NLP</li>
+</ol>
+<h1 id="types-of-text-processing-tasks">Types of text processing tasks</h1>
+<h2 id="text-classificationclustering">Text classification/clustering</h2>
+<p>为每个 document 分类，document 可以是任何文本类型（报纸文章、推文、email、文字信息、一个句子。类别可以是任何的 label（主题、相关度、作者、情感等）。</p>
+<h2 id="sequence-labelling--named-entity-recognition">Sequence labelling (= named entity recognition)</h2>
+<p>为文本中的<strong>每个词</strong>分类。</p>
+<p>例如：在文本中识别人名、地名（NER）。</p>
+<h2 id="text-to-text-generation">Text-to-text generation</h2>
+<p>输入文本，输出文本。</p>
+<ul>
+<li>总结（summarization）：sequence-to-sequence</li>
+<li>翻译</li>
+</ul>
+<h1 id="text-mining-models">Text mining models</h1>
+<p>ML 的范式：</p>
+<ol>
+<li>supervised learning
+<ol>
+<li>训练 featured-based 模型</li>
+<li>lightweight，explainable</li>
+</ol>
+</li>
+<li>transfer learning
+<ol>
+<li>根据任务，fine-tune 预训练模型（如 BERT）</li>
+<li>有足够的 labelled data 的 TM 任务的最佳选择</li>
+</ol>
+</li>
+<li>in-context learning
+<ol>
+<li>给 LLM prompt 和一些例子作为引导</li>
+<li>没有 labelled data 的 TM 任务的一个选择</li>
+</ol>
+</li>
+</ol>
+<p><strong>监督学习和迁移学习都需要大量的 labelled data。</strong></p>
+<h2 id="文本作为分类对象--文本作为序列sequence">文本作为分类对象 &amp; 文本作为序列（sequence）</h2>
+<ul>
+<li>把文本作为整体进行分类时，文字顺序（word order）没有那么重要，而把文本作为序列时，文字顺序比较重要。
+<ul>
+<li>文本作为分类对象：垃圾邮件处理、新闻分类</li>
+<li>关注整体内容</li>
+<li>文本作为序列：给句子里每个词打标签（人名、地名、动词等）</li>
+<li>关注上下文结构、词序</li>
+</ul>
+</li>
+</ul>
+<h2 id="文本分类">文本分类</h2>
+<ul>
+<li>基于特征的文本分类方法把文本表示为“bag of words”。
+<ul>
+<li>bag-of-words 模型里，集合里的每个单词都是一个特征（feature）。</li>
+<li>传统的 bag-of-words 模型中，词序、标点符号（punctuation）、句子和段落的分界线都不重要。</li>
+<li>词袋模型的缺点：
+<ul>
+<li>维度爆炸 - 维度太高了，假如词典里有 10000 个词，每个单词的向量长度就都是 10000。</li>
+<li>稀疏（sparsity） - 词向量的大部分位置都是 0，浪费资源</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="zipfs-law">Zipf’s Law</h3>
+<p>Frequency 与 rank 成反比：一个词出现的频率，与它在频率表里的排名成反比。也就是说，在频率表里越靠前的词，越频繁出现；很靠后的词，几乎不出现。</p>
+<ul>
+<li>Lont-tail distribution：头部（head）是极少数出现的词，但出现次数最多；长长的尾巴（tail）是绝大多数的词，但它们包含各种含义却出现次数非常少。</li>
+<li>所以：要去掉“头部”这些词，也就是停用词（stop word）；也要小心处理尾部，因为数据太少。</li>
+</ul>
+<h3 id="文本的稠密表示">文本的稠密表示</h3>
+<p>word embeddings（词嵌入）：低维、稠密、隐式的（latent）、语义向量。</p>
+<p>比如：word2vec、GloVe、BERT</p>
+<p><em>在 Lecture 3 讨论词嵌入。</em></p>
+<h2 id="文本序列">文本序列</h2>
+<p>从文本中提取知识，就要关注词序、标点符号、大小写。</p>
+<p>识别人名、时间、电影名字等等。</p>
+<h1 id="transformer-models">Transformer models</h1>
+<p>sequence-to-sequence 任务：输入文本，输出文本。</p>
+<p>比如：翻译。</p>
+<p>Transformer 结构有两个模块：Encoders，Decoders。分别负责处理输入文本和生成输出文本。</p>
+<p><em>在 Lecture 6 讨论 Transformer。</em></p>
+<h3 id="bert">BERT</h3>
+<p>Bidirectional Encoder Representations from Transformers (BERT)：只有 <strong>encoder</strong>；输入文本，输出 embeddings。</p>
+<p>适用于：分类（例如 sentiment）、序列标注（sequence labelling，例如 NER）。</p>
+<h3 id="gpt">GPT</h3>
+<p>Generative Pre-trained Transforer (GPT)：只有 <strong>decoder</strong>；输入 prompt，输出文本。</p>
+<p>decoder 模型巨大的时候，比如 GPT-4，也可以做 sequence-to-sequence 任务、甚至是分类任务，只要在 prompt 里很好地描述。</p>
+<h3 id="encoder-decoder-models">Encoder-decoder models</h3>
+<p>T5：总结、翻译</p>
+<p><em>在 Lecture 6、7 讨论 LLMs。</em></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-09-07</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/250907-tm-w1/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://example.org/250907-tm-w1/" data-hashtag="文本挖掘"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://example.org/250907-tm-w1/" data-title="Text Mining | 01: Introduction"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://example.org/250907-tm-w1/" data-title="Text Mining | 01: Introduction"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/250907-tm-w1/" data-title="Text Mining | 01: Introduction"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/">文本挖掘</a>,&nbsp;<a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/250916-tm-w2/" class="next" rel="next" title="Text Mining | 02: Preprocessing | 预处理">Text Mining | 02: Preprocessing | 预处理<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.155.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2024 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">RR</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -3,7 +3,23 @@
         <title>所有文章 - RR的博客</title>
         <link>http://example.org/posts/</link>
         <description>所有文章 | RR的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 24 Oct 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 27 Oct 2025 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>模型量化技术</title>
+    <link>http://example.org/251027-quantization/</link>
+    <pubDate>Mon, 27 Oct 2025 00:00:00 &#43;0000</pubDate>
+    <author>RR</author>
+    <guid>http://example.org/251027-quantization/</guid>
+    <description><![CDATA[<em>A Visual Guide to Quantization</em> 模型量化技术笔记]]></description>
+</item>
+<item>
+    <title>Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记</title>
+    <link>http://example.org/251026-vit/</link>
+    <pubDate>Sun, 26 Oct 2025 00:00:00 &#43;0000</pubDate>
+    <author>RR</author>
+    <guid>http://example.org/251026-vit/</guid>
+    <description><![CDATA[Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记]]></description>
+</item>
+<item>
     <title>Transformers 模型：《Attention is All You Need》论文笔记</title>
     <link>http://example.org/251024-transformers/</link>
     <pubDate>Fri, 24 Oct 2025 00:00:00 &#43;0000</pubDate>
@@ -12,39 +28,54 @@
     <description><![CDATA[Transformers 模型：《Attention is All You Need》论文笔记]]></description>
 </item>
 <item>
-    <title>测试文章-长文本-多媒体</title>
-    <link>http://example.org/first_post/</link>
-    <pubDate>Wed, 01 Jan 2025 21:40:56 &#43;0100</pubDate>
+    <title>Text Mining | 03: Vector Semantics | 语义向量与词嵌入</title>
+    <link>http://example.org/250923-tm-w3/</link>
+    <pubDate>Tue, 23 Sep 2025 00:00:00 &#43;0000</pubDate>
     <author>RR</author>
-    <guid>http://example.org/first_post/</guid>
-    <description><![CDATA[<h2 id="番外">番外</h2>
-<p>摊子叫“贺记小食”，卖些小吃,似乎是老板一家三口坐在一张靠里的小桌上,一名<span style="color: #1cab00">身形苗条、颇有姿色的女郎</span>穿行在桌子里忙活，<span style="color: #8d5e01">老板喊她别忙了过去坐下</span>她也不听,只道“就来”,<span style="color: #1cab00">声如黄莺</span>。其余桌子三两两坐着些客人,不过看来都只是冲那妙龄少女来的,随便坐坐聊聊，不一会儿就回家了。毕竟，今日是上元节。</p>]]></description>
+    <guid>http://example.org/250923-tm-w3/</guid>
+    <description><![CDATA[关于语义向量、word2vec，以及词嵌入（word embedding）的深入理解。]]></description>
 </item>
 <item>
-    <title>测试文章-网易云</title>
-    <link>http://example.org/first_post_3/</link>
-    <pubDate>Wed, 01 Jan 2025 02:51:56 &#43;0100</pubDate>
+    <title>Text Mining | 02: Preprocessing | 预处理</title>
+    <link>http://example.org/250916-tm-w2/</link>
+    <pubDate>Tue, 16 Sep 2025 00:00:00 &#43;0000</pubDate>
     <author>RR</author>
-    <guid>http://example.org/first_post_3/</guid>
-    <description><![CDATA[<!-- <meting-js auto="https://music.163.com/playlist?id=12371120708&amp;uct2=U2FsdGVkX19J74TRLlBbosBaY8iRynMaOREm9YmuEXA=" theme="#448aff"></meting-js> -->
-<!-- <meting-js server="netease" type="song" id="1957902712" theme="#448aff"></meting-js> -->
-<!-- <meting-js url="/music/%e9%a3%8e%e6%81%af%e4%ba%88%e6%88%91.mp3" name="风息予我" artist="蜡笔小C/叫我天琦大人" cover="/images/风息予我mp3.jpg" theme="#448aff"></meting-js> -->
-<!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=0&id=12371120708&auto=1&height=430"></iframe> -->
-<h2 id="寒露夜离别夜">寒露夜，离别夜</h2>
-<p>带着没了法力的师青玄御铲而行时，贺玄发觉自己虽然身处惊涛骇浪，但另一部分心神仿佛已经到了那幽冥水府。他预想过的多种可能，就像河流汇入大海，最终走向唯一的结局，成为注定要上演的终场一幕。</p>]]></description>
+    <guid>http://example.org/250916-tm-w2/</guid>
+    <description><![CDATA[<p>Raw text →</p>
+<ul>
+<li>通过 <strong>OCR（Optical Character Recognition）</strong>：将原始文本，比如手写文本，经过扫描，生成数字文件（digitized documents）</li>
+<li>也有一些本来就是数字形式的原始文本，比如：HTML、text 文件、PDF、MS Word</li>
+<li>所有的文本都需要一些清理（clean-up）
+<ul>
+<li>图片、表格等；设计的格式、排版；声明、版权说明；headers、footers；分列、页面空白；</li>
+<li>以及：OCR errors；character encoding errors
+<ul>
+<li><strong>character encoding：计算机如何将文本呈现成人类理解的方式</strong></li>
+</ul>
+</li>
+<li>semi-structured text：markup（HTML、XML、json）
+<ul>
+<li>markup：文本文件中的元数据（meta-information），和文本内容能区分出来。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="character-encoding">Character encoding</h2>
+<h3 id="ascii">ASCII</h3>
+<p>二级制序列 → 字符（character）</p>]]></description>
 </item>
 <item>
-    <title>测试文章-骨鱼炖汤</title>
-    <link>http://example.org/first_post_2/</link>
-    <pubDate>Wed, 01 Jan 2025 02:51:56 &#43;0100</pubDate>
+    <title>Text Mining | 01: Introduction</title>
+    <link>http://example.org/250907-tm-w1/</link>
+    <pubDate>Sun, 07 Sep 2025 00:00:00 &#43;0000</pubDate>
     <author>RR</author>
-    <guid>http://example.org/first_post_2/</guid>
-    <description><![CDATA[<p>2025蛇年新春贺文</p>
-<p>思考关于贺生都能做些什么</p>
-<p>或者是写一篇新年贺文？</p>
-<hr>
-<p>有个灵感，贺玄把骨鱼赋予了一部分自主意志？或者让骨鱼模仿他的家人们？骨鱼吵架，代表贺玄内心不同想法之间的冲突？
-一条陪伴他几百年的骨鱼？和他之间产生的羁绊？？骨鱼从混沌、懵懂逐渐有了灵性？</p>]]></description>
+    <guid>http://example.org/250907-tm-w1/</guid>
+    <description><![CDATA[<p>Text mining: Automatic extraction of knowledge from text
+从文本中自动地提取知识（信息）</p>
+<p>Text: unstructured; Knowledge: structured</p>
+<p>Big text data —(Text retrievl)→ Small relevant data —(Text mining)→ Knowledge → Many applications</p>
+<p><strong>Challenges of text data:</strong></p>]]></description>
 </item>
 </channel>
 </rss>

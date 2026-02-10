@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>论文阅读 on RR的博客</title>
+    <link>http://example.org/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+    <description>Recent content in 论文阅读 on RR的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 26 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://example.org/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记</title>
+      <link>http://example.org/251026-vit/</link>
+      <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/251026-vit/</guid>
+      <description>Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记</description>
+    </item>
+    <item>
+      <title>Transformers 模型：《Attention is All You Need》论文笔记</title>
+      <link>http://example.org/251024-transformers/</link>
+      <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://example.org/251024-transformers/</guid>
+      <description>Transformers 模型：《Attention is All You Need》论文笔记</description>
+    </item>
+  </channel>
+</rss>

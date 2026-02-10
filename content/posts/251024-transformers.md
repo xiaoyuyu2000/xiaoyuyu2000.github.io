@@ -3,8 +3,8 @@ date = '2025-10-24'
 draft = false
 title = 'Transformers 模型：《Attention is All You Need》论文笔记'
 author = 'RR'
-tags = ['Transformers', '论文', 'LLM']
-categories = ['论文']
+tags = ['Transformer', '论文阅读', 'LLM', 'NLP']
+categories = ['论文阅读']
 summary = "Transformers 模型：《Attention is All You Need》论文笔记"
 +++
 

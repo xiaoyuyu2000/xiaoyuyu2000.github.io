@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>模型量化技术 - RR的博客</title><meta name="Description" content="RR的博客"><meta property="og:url" content="http://example.org/251027-quantization/">
+  <meta property="og:site_name" content="RR的博客">
+  <meta property="og:title" content="模型量化技术">
+  <meta property="og:description" content="A Visual Guide to Quantization 模型量化技术笔记">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-27T00:00:00+00:00">
+    <meta property="article:tag" content="模型量化">
+    <meta property="og:image" content="http://example.org/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://example.org/logo.png">
+  <meta name="twitter:title" content="模型量化技术">
+  <meta name="twitter:description" content="A Visual Guide to Quantization 模型量化技术笔记">
+<meta name="application-name" content="RR的网站">
+<meta name="apple-mobile-web-app-title" content="RR的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/251027-quantization/" /><link rel="prev" href="http://example.org/251026-vit/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "模型量化技术",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/251027-quantization\/"
+        },"genre": "posts","keywords": "模型量化","wordcount":  4898 ,
+        "url": "http:\/\/example.org\/251027-quantization\/","datePublished": "2025-10-27T00:00:00+00:00","dateModified": "2025-10-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "RR"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="RR的博客"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.svg"
+        data-srcset="/images/logo.svg, /images/logo.svg 1.5x, /images/logo.svg 2x"
+        data-sizes="auto"
+        alt="/images/logo.svg"
+        title="/images/logo.svg" />RR的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">模型量化技术</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>RR</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>大模型技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-10-27">2025-10-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4898 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-llms存在的问题">1. LLMs存在的问题</a>
+      <ul>
+        <li><a href="#参数数值value的表示方法">参数数值（value）的表示方法</a>
+          <ul>
+            <li><a href="#fp16">FP16</a></li>
+          </ul>
+        </li>
+        <li><a href="#内存限制问题">内存限制问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-模型量化技术简介">2. 模型量化技术简介</a>
+      <ul>
+        <li><a href="#常用的数据类型">常用的数据类型</a>
+          <ul>
+            <li><a href="#fp16-1">FP16</a></li>
+          </ul>
+        </li>
+        <li><a href="#bf16">BF16</a>
+          <ul>
+            <li><a href="#int8">INT8</a></li>
+          </ul>
+        </li>
+        <li><a href="#对称量化symmetric-quantization">对称量化（Symmetric Quantization）</a>
+          <ul>
+            <li><a href="#量化的过程"><strong>量化的过程</strong></a></li>
+            <li><a href="#反量化的过程">反量化的过程</a></li>
+          </ul>
+        </li>
+        <li><a href="#非对称量化asymmetric-quantization">非对称量化（Asymmetric Quantization）</a>
+          <ul>
+            <li><a href="#量化的过程-1">量化的过程</a></li>
+            <li><a href="#反量化的过程-1">反量化的过程</a></li>
+          </ul>
+        </li>
+        <li><a href="#取值范围的映射与剪裁">取值范围的映射与剪裁</a></li>
+        <li><a href="#校准过程calibration">校准过程（Calibration）</a>
+          <ul>
+            <li><a href="#权重和偏置项weights-and-biases">权重（和偏置项）Weights (and Biases)</a></li>
+            <li><a href="#激活值">激活值</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#3-训练后量化post-training-quantizationptq">3. 训练后量化（Post-Training Quantization，PTQ）</a>
+      <ul>
+        <li><a href="#动态量化dynamic-quantization">动态量化（Dynamic Quantization）</a></li>
+        <li><a href="#静态量化static-quantization">静态量化（Static Quantization）</a></li>
+        <li><a href="#探索-4-bit-量化的极限">探索 4-bit 量化的极限</a>
+          <ul>
+            <li><a href="#gptq">GPTQ</a></li>
+            <li><a href="#gguf">GGUF</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#4-训练中量化quantization-aware-trainingqat">4. 训练中量化（Quantization Aware Training，QAT）</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw" aria-hidden="true"></i>参考链接<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>原文：<a href="https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization" target="_blank" rel="noopener noreffer ">Maarten Grootendorst: A Visual Guide to Quantization</a></p>
+<p>中文翻译版：<a href="https://mp.weixin.qq.com/s/dgS-yRVpGe_w1uzbcVctXg" target="_blank" rel="noopener noreffer ">模型量化技术可视化指南</a></p>
+</div>
+        </div>
+    </div>
+<h2 id="1-llms存在的问题">1. LLMs存在的问题</h2>
+<p>大语言模型（LLM）的参数数量能达到几十亿，其中包括权重参数（weights）、激活值（activations）等。我们的目标：用尽量高效的方式表达这巨量的参数，以减少存储参数所需要的空间。</p>
+<h3 id="参数数值value的表示方法">参数数值（value）的表示方法</h3>
+<p>数值通常以浮点数形式来表示，带有正负号和小数点。</p>
+<p>这些数值由 bits 组成，也就是二进制数字。这些 bits 可以被分成三个部分：</p>
+<ul>
+<li>符号位（Sign）</li>
+<li>指数部分（Exponent）</li>
+<li>小数部分（也称为尾数）（Significand / Mantissa）</li>
+</ul>
+<p>符号位、指数部分、小数部分结合在一起，就能根据一组特定的 bits 来计算出一个具体的数值了。</p>
+<h4 id="fp16">FP16</h4>
+<p>1 个符号位 + 5 个指数位 + 9 个小数位</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举个例子：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>某个FP16（16位浮点数），其二进制表示为：0 10000 1001001000</p>
+<figure><img src="https://substackcdn.com/image/fetch/$s_!Bn0Y!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4783fd02-a138-40c7-82c7-79dd05a179e4_1472x772.png">
+</figure>
+<ul>
+<li>符号位：0，代表符号位是 $(-1)^0=1$，符号为正</li>
+<li>指数部分：10000，代表 $2^{2^4-(2^{(5-1)}-1)=1}=2^1=2$</li>
+<li>小数部分：1001001000，代表 $2^{-1}+2^{-4}+2^{-7}=0.5703125$</li>
+</ul>
+<p>所以这个浮点数实际表示为：$1\times 2\times 1.5703125=3.140625$</p>
+</div>
+        </div>
+    </div>
+<h3 id="内存限制问题">内存限制问题</h3>
+<p><strong>用来表示数值的位数（bit）越多：</strong></p>
+<ul>
+<li><strong>得到的数值精确度越高</strong></li>
+<li>能表示的数值范围越大</li>
+<li>占用空间也越大</li>
+</ul>
+<p>动态范围（dynamic range）：指的是某个数值表示法所能表示的所有数值的区间。</p>
+<p>精度（precision）：相邻两个数值之间的间隔。（相邻两数值离得越近，说明这个数值表示法的精度越高）</p>
+<ul>
+<li>我们可以计算出存储一个特定数值所需要的设备内存量。一个字节（byte）等于8位（bits），所以可以位大多数浮点表示形式制定一个基本的计算公式：
+<ul>
+<li>$memory=\frac{nr_bits}{8}\times nr_params$
+<ul>
+<li>nr_bits：数值表示法用来表示数值的比特位数</li>
+<li>nr_params：模型中的参数数量</li>
+</ul>
+</li>
+<li>实际应用中，模型推理阶段所需的显存（VRAM）量还受别的因素影响（比如模型处理上下文的大小、模型架构设计）</li>
+</ul>
+</li>
+</ul>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举例说明：假设有一个 700 亿（70B）参数的模型<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>使用 FP32（32 位浮点数，常称为全精度）数值表示法：
+<ul>
+<li>$memory=\frac{32}{8}\times70B=280 GB$</li>
+</ul>
+</li>
+<li>使用 FP64：64/8 * 70B = 560GB</li>
+<li>使用 FP16：16/8 * 70B = 140GB</li>
+</ul>
+<p>由此可见，有必要尽可能减少用于表示模型参数数值的 bits 数量。然而，bits 数减少，精度会降低，从而导致力模型准确性下降。</p></div>
+        </div>
+    </div>
+<p><strong>目标：减少用于表示模型参数的 bits 数量，同时又不损害模型的准确性。</strong></p>
+<p>——这就是模型量化技术的目的。</p>
+<h2 id="2-模型量化技术简介">2. 模型量化技术简介</h2>
+<p>模型量化的核心：将模型参数的精度从较高的位宽（bit-widths）（比如32位浮点数）降低到较低的位宽（例如8位整数）。</p>
+<p>减少比特位数时，会出现精度损失。</p>
+<p>模型量化的主要目的就是减少表示原始参数所需的 bits 数量，同时尽可能保留原始参数的精度。（上文已经说过）</p>
+<h3 id="常用的数据类型">常用的数据类型</h3>
+<p>除了32-bit全精度（full-precisoin，FP32）之外，还有多种不同的数据类型。</p>
+<h4 id="fp16-1">FP16</h4>
+<p>16-bit 浮点数，为半精度浮点数，也称为 FP16。</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举例说明，将 32-bit 转换成 16-bit（半精度，FP16）浮点数：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>某个 FP16（16 位浮点数），其二进制表示为：0 10000 1001001000</p>
+<figure><img src="https://substackcdn.com/image/fetch/$s_!VLOD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff4ac888a-02b9-4153-915a-e103a12c33a4_1460x892.png">
+</figure>
+<p>FP16 的数值范围比 FP32 窄得多，且数值有一定的精度损失（3.14159274… → 3.140625）</p>
+</div>
+        </div>
+    </div>
+<h3 id="bf16">BF16</h3>
+<p>为了保持与原始 FP32 相似的数值范围，引入了 bfloat 16这一数据类型（即 BF16，brain-float 16），相当于“截断版的 FP32”。</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>FP32 与 BF16：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>某个 FP16（16 位浮点数），其二进制表示为：0 10000 1001001000</p>
+<figure><img src="https://substackcdn.com/image/fetch/$s_!_2X4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F172c93aa-58ae-4d11-8cb7-2917c265cb68_1460x936.png">
+</figure>
+<p>表示的数值范围是相同的，但 BF16 只有 16 bits。BF16 在深度学习领域得到了广泛应用。</p>
+</div>
+        </div>
+    </div>
+<h4 id="int8">INT8</h4>
+<p>进一步减少 bits 的数量，就要使用整数表示法了，比如仅有 8 bits 的 INT8。INT8 占用的 bits 数量仅仅为 FP32 全精度浮点数的四分之一。</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>FP32 与 INT8：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>某个 FP16（16 位浮点数），其二进制表示为：0 10000 1001001000</p>
+<figure><img src="https://substackcdn.com/image/fetch/$s_!Wx2P!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffa37a58d-1f5a-433c-b235-5b073596bbca_1460x848.png">
+</figure>
+<p>FP32 的数值范围： $[-3.4e^{38},~3.4e^{38}]$</p>
+<p>INT8 的数值范围： $[-127,~128]$</p>
+</div>
+        </div>
+    </div>
+<p>实际应用中，并不需要将 FP32 所表示的全部数值范围都映射到 INT8，我们只需要找到一种方法，将数据（即实际的模型的参数）范围映射到 INT8 即可。</p>
+<p>常用的压缩（squeezing）和映射（mapping）方法包括对称量化、非对称量化，它们都是线性映射（linear mapping）的不同形式。</p>
+<p>接下来讨论<em>将 FP32 量化成 INT8 的方法</em>。</p>
+<h3 id="对称量化symmetric-quantization">对称量化（Symmetric Quantization）</h3>
+<p>对称量化中，原本浮点数的值域会被映射到量化空间（quantized space）中的一个以零为中心的<strong>对称</strong>区间。量化前后的值域都是围绕零点对称的。</p>
+<figure><img src="https://substackcdn.com/image/fetch/$s_!R1o0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F730bbb8a-3a44-47f6-aefe-f652b117ae22_1124x600.png">
+</figure>
+
+<p>在 FP32 中表示零的值，在 INT8 中依然正好表示零。</p>
+<p>对称量化的一种经典方法：绝对最大值（absmax，absolute maximuum）量化。</p>
+<h4 id="量化的过程"><strong>量化的过程</strong></h4>
+<ol>
+<li>
+<p>从一组数据中找出<strong>最大的绝对值 α</strong>，以此作为线性映射的范围（从 -α 到 +α）。</p>
+</li>
+<li>
+<p>计算<strong>比例因子（s，scale factor）</strong>：</p>
+<ul>
+<li>$s=\frac{2^{b-1}-1}{\alpha}$
+<ul>
+<li>b 是我们想要的量化结果的 bits 数（这里 INT8 为 8）。</li>
+<li>α 是最大的绝对值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>计算量化结果</strong>：</p>
+<p>$X_{quantized}=round(s\cdot X)$</p>
+</li>
+</ol>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举例说明： $X=[5.47,~3.08,~-7.59,~0,~-1.95~,-4.57,~10.8]$<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><a class="lightgallery" href="https://substackcdn.com/image/fetch/$s_!PeHR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png" title="https://substackcdn.com/image/fetch/$s_!PeHR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png" data-thumbnail="https://substackcdn.com/image/fetch/$s_!PeHR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="https://substackcdn.com/image/fetch/$s_!PeHR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png"
+            data-srcset="https://substackcdn.com/image/fetch/$s_!PeHR!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png, https://substackcdn.com/image/fetch/$s_!PeHR!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png 1.5x, https://substackcdn.com/image/fetch/$s_!PeHR!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png 2x"
+            data-sizes="auto"
+            alt="https://substackcdn.com/image/fetch/$s_!PeHR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F782beaa8-340f-45b8-ba7f-20491f66867a_1172x848.png" />
+    </a>
+<ul>
+<li>α = 10.8，所以线性映射范围设为 -10.8 ~ 10.8</li>
+<li>比例因子： $s=\frac{2^{8-1}-1}{10.8}=\frac{127}{10.8}\approx 11.76$</li>
+<li>量化： $X_{quantized}=round(11.76\cdot X)$
+$=round([64.3272, ~36.2208, ~-89.2584, ~0, ~-22.932, ~-53.7432, ~127.008])$
+$=[64, ~36, ~-89, ~0, ~-23, ~-54, ~127]$</li>
+</ul>
+</div>
+        </div>
+    </div>
+<h4 id="反量化的过程">反量化的过程</h4>
+<p>把量化后的 INT8 结果恢复成原始的 FP32 数值：使用之前计算出的比例因子 s ，对量化后的数值进行反量化（dequantize）。</p>
+<p><strong>量化误差（quantization error）</strong>：指的是原始值经过量化，然后再反量化回到原始数值表示法这个过程中，原始值（original values）与反量化值（dequantized values）之间的差值。</p>
+<ul>
+<li>反量化的计算：
+<ul>
+<li>$X_{dequantized}=\frac{X_{quantized}}{s}$</li>
+<li>量化后的结果，除以比例因子 s，即可</li>
+</ul>
+</li>
+</ul>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>继续以前边量化的例子来解释反量化：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>$X_{dequantized}=\frac{[64, ~36, ~-89, ~0, ~-23, ~-54, ~127]}{11.76}\approx[5.44, ~3.06, ~-7.54, ~0, ~, -1.96, ~-4.59, ~10.8, ~3.06, ~-1.96]$</li>
+</ul>
+<p>整个量化与反量化的过程，如图：</p>
+<a class="lightgallery" href="https://substackcdn.com/image/fetch/$s_!EP4K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png" title="https://substackcdn.com/image/fetch/$s_!EP4K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png" data-thumbnail="https://substackcdn.com/image/fetch/$s_!EP4K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="https://substackcdn.com/image/fetch/$s_!EP4K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png"
+            data-srcset="https://substackcdn.com/image/fetch/$s_!EP4K!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png, https://substackcdn.com/image/fetch/$s_!EP4K!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png 1.5x, https://substackcdn.com/image/fetch/$s_!EP4K!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png 2x"
+            data-sizes="auto"
+            alt="https://substackcdn.com/image/fetch/$s_!EP4K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea2d627-efc7-4a8a-9cf0-7a7020f1253d_1236x348.png" />
+    </a>
+<ul>
+<li>观察到，某些值量化到 INT8 之后，被分配到了相同的值（36），而反量化回到 FP32 时，它们也会变成相同的浮点数值。</li>
+</ul>
+<p>量化误差：（比较原始值与反量化值）</p>
+<a class="lightgallery" href="https://substackcdn.com/image/fetch/$s_!QCY6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png" title="https://substackcdn.com/image/fetch/$s_!QCY6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png" data-thumbnail="https://substackcdn.com/image/fetch/$s_!QCY6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="https://substackcdn.com/image/fetch/$s_!QCY6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png"
+            data-srcset="https://substackcdn.com/image/fetch/$s_!QCY6!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png, https://substackcdn.com/image/fetch/$s_!QCY6!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png 1.5x, https://substackcdn.com/image/fetch/$s_!QCY6!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png 2x"
+            data-sizes="auto"
+            alt="https://substackcdn.com/image/fetch/$s_!QCY6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe173b13b-ed99-4de0-a5e0-4b9114899b3f_1236x372.png" />
+    </a>
+</div>
+        </div>
+    </div>
+<p>一般来说，量化后的 bits 数越小，量化误差往往越大。</p>
+<h3 id="非对称量化asymmetric-quantization">非对称量化（Asymmetric Quantization）</h3>
+<p>非对称量化并不是以零为中心对称的，它将浮点数范围中的最小值 β 和最大值 α 映射到量化范围（quantized range）的最小值和最大值。</p>
+<p>我们在此讨论的方法称为零点量化。</p>
+<h4 id="量化的过程-1">量化的过程</h4>
+<ol>
+<li>找出数据中的最大值与最小值，以此来作为线性映射的范围。</li>
+<li><strong>计算比例因子（s，scale factor）：</strong>
+<ul>
+<li>$s=\frac{2^{b-1}-(-(2^{b-1}-1))}{\alpha-\beta}=\frac{128-(-127)}{\alpha-\beta}=\frac{255}{\alpha-\beta}$</li>
+</ul>
+</li>
+<li>计算<strong>零点（zeropoint）</strong>：
+<ul>
+<li>$z=round(-s\cdot \beta)-2^{b-1}$</li>
+</ul>
+</li>
+<li><strong>计算量化结果：</strong>
+<ul>
+<li>$X_{quantized}=round(s\cdot X+z)$</li>
+</ul>
+</li>
+</ol>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举个例子来解释非对称量化：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p><img
+class="lazyload"
+src="/svg/loading.min.svg"
+data-src="https://substackcdn.com/image/fetch/$s_!-PZj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ffa0c54-88bf-45c1-8636-bdb097bb8e6b_1172x848.png"
+data-srcset="https://substackcdn.com/image/fetch/$s_!-PZj!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ffa0c54-88bf-45c1-8636-bdb097bb8e6b_1172x848.png, https://substackcdn.com/image/fetch/$s_!-PZj!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ffa0c54-88bf-45c1-8636-bdb097bb8e6b_1172x848.png 1.5x, https://substackcdn.com/image/fetch/$s_!-PZj!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ffa0c54-88bf-45c1-8636-bdb097bb8e6b_1172x848.png 2x"
+data-sizes="auto"
+alt="https://substackcdn.com/image/fetch/$s_!-PZj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ffa0c54-88bf-45c1-8636-bdb097bb8e6b_1172x848.png"
+title="https://substackcdn.com/image/fetch/$s_!-PZj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ffa0c54-88bf-45c1-8636-bdb097bb8e6b_1172x848.png" /></p>
+<ul>
+<li>
+<p>线性映射的范围为： $[-7.59,~10.8]$</p>
+<ul>
+<li>最小值与最大值到零点的距离是不相等的——“非对称”</li>
+</ul>
+</li>
+<li>
+<p>计算比例因子 s： $s=\frac{255}{10.8-(-7.59)}\approx13.86$</p>
+</li>
+<li>
+<p>计算零点 z： $z=round(-13.86\cdot (-7.59))-2^7=-23$</p>
+<ul>
+<li>即：FP32中的数值 0，在 INT8 中被映射到了 -23的位置。</li>
+</ul>
+</li>
+<li>
+<p>计算量化结果：</p>
+<p>$X_{quantized}=round(13.86\cdot [&hellip;]+z)$
+$=[53, ~20, ~-128, ~-23, ~-50, ~-86, ~127]$</p>
+</li>
+</ul>
+</div>
+        </div>
+    </div>
+<h4 id="反量化的过程-1">反量化的过程</h4>
+<ul>
+<li>反量化的计算：
+<ul>
+<li>$X_{dequantized}=\frac{X_{quantized}-z}{s}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="取值范围的映射与剪裁">取值范围的映射与剪裁</h3>
+<p>将向量中的数值映射到更低的位表示形式，前边介绍的方法使得向量的整个范围都能被映射，但一个明显的缺点：有离群值（outlier）的时候，不太好处理。</p>
+<p><strong>离群值（outlier）</strong>：向量中的一个数值远大于（或远小于）其他所有数值，该数值就可以被视为离群值。</p>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>举个例子，来说明有离群值的时候，对数值的映射的危害：<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>$X=[-0.32,~0.89,~0.45,~256]$  → 离群值：256</p>
+<p>用非对称量化：</p>
+<ul>
+<li>计算比例因子 s： $s=\frac{255}{256-(-0.32)}\approx0.99$</li>
+<li>计算零点 z： $z=round(-0.99\cdot(-0.32))-2^7=-128$</li>
+<li>计算量化结果： $X_{quantized}=round(0.99\cdot[-0.32, ~0.89, ~0.45, ~256])+z$
+$=[0, ~1, ~0, ~253]+(-128)$
+$[-128, ~-127, ~-128, ~125]$</li>
+</ul>
+<p>所有较小的数值，都被映射到了相近的 INT8 数值，并因此失去了它们的独特特性。（为了“照顾到”离群值 256……）</p>
+</div>
+        </div>
+    </div>
+<p>我们需要进行<strong>剪裁（clipping）。</strong></p>
+<p>一种简单的方法是：为原始值设定一个不同的动态范围，而所有离群值都会被映射到相同的值。</p>
+<p>比如：假如我们将动态范围设置为 $[-5,~5]$，那所有超出这个范围的数值，都会被当做 -5 或 5 来看待，于是被映射成 -128 或 127。</p>
+<ul>
+<li>优点：减少了非离群值的量化误差</li>
+<li>缺点：增加了离群值的量化误差</li>
+</ul>
+<h3 id="校准过程calibration">校准过程（Calibration）</h3>
+<p>前文所说的手动选择一个动态范围，这个过程被称为校准（calibration）。</p>
+<p>目的：找到一个能够包含尽可能多的数值（values）的范围，同时尽量减少量化误差。</p>
+<p>不同的参数，校准方法不同。</p>
+<h4 id="权重和偏置项weights-and-biases">权重（和偏置项）Weights (and Biases)</h4>
+<p>LLMs中，可以将权重（weights）和偏置项（biases）视为预先确定的静态值，因为这些值在模型运行之前就确定了。偏置项的数量远小于权重的数量，偏置项通常被保留在更高的精度（比如 INT16），而量化的主要工作集中在权重的处理。</p>
+<ul>
+<li>手动选择输入范围的百分位数
+<ul>
+<li>会导致与前文提过的相似的裁剪（clipping）行为</li>
+</ul>
+</li>
+<li>优化原始权重和量化权重之间的均方误差（MSE）</li>
+<li>最小化原始值和量化值之间的熵（KL 散度）</li>
+</ul>
+<h4 id="激活值">激活值</h4>
+<p>LLMs 中，在整个推理过程中，持续更新的输入（input）通常被称为激活值（activations）。这些激活值往往需要通过激活函数进行处理，比如 sigmoid、 ReLU。</p>
+<p>与权重不同，激活值会随着每次输入数据的改变而改变，因此很难进行精确量化。</p>
+<p>校准权重和激活值的量化方法主要有两种：</p>
+<ul>
+<li>Post-Training Quantization（PTQ）：训练完成后进行量化</li>
+<li>Quantization Aware Training（QAT）：训练/微调过程中同时进行量化</li>
+</ul>
+<h2 id="3-训练后量化post-training-quantizationptq">3. 训练后量化（Post-Training Quantization，PTQ）</h2>
+<p>Post-Training Quantization（PTQ）是在训练完模型之后，再对模型的参数（包含权重、激活值）进行量化。</p>
+<ul>
+<li>对于权重值的量化：（主要两种）
+<ul>
+<li>对称量化（symmetric quantization）</li>
+<li>非对称量化（asymmetric quantization）</li>
+</ul>
+</li>
+<li>对于激活值的量化：因为我们不知道激活值的范围，所以需要通过模型的推理，来获取它们的 potential distribution（也就是在不同的输入与模型参数下，激活值可能出现的范围分布，然后我们根据这个分布来选择一个能包含大部分激活值的量化级别），然后再进行量化。（主要两种）
+<ul>
+<li>动态量化（dynamic quantization）</li>
+<li>静态量化（static quantization）</li>
+</ul>
+</li>
+</ul>
+<h3 id="动态量化dynamic-quantization">动态量化（Dynamic Quantization）</h3>
+<p>当数据通过隐藏层时，其激活值会被收集起来。</p>
+<p>随后，利用这些激活值的分布（distribution of activations），来计算量化输出值所需的零点（z）和比例因子（s）</p>
+<ul>
+<li>$s=\frac{255}{\alpha-\beta}$</li>
+<li>$z=round(-s\cdot \beta)-128$</li>
+<li>$X_{quantized}=round(s\cdot X+z)$</li>
+</ul>
+<p>每一层都重复这个过程。每一层都有其独特的零点 z 和 比例因子 s，每一层的量化方案不同。</p>
+<h3 id="静态量化static-quantization">静态量化（Static Quantization）</h3>
+<p>静态量化在模型推理过程中，并不实时地计算零点（z）和比例因子（s），而是在模型训练或校准的过程中提前计算。</p>
+<p>为了找到这些值，会使用一个校准数据集，并让模型处理这些数据，来收集可能的激活值分布（potential distribution）。</p>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://substackcdn.com/image/fetch/$s_!05g6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46dd6825-2a1c-459e-88c0-022a01dcebf2_1194x636.png"
+        data-srcset="https://substackcdn.com/image/fetch/$s_!05g6!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46dd6825-2a1c-459e-88c0-022a01dcebf2_1194x636.png, https://substackcdn.com/image/fetch/$s_!05g6!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46dd6825-2a1c-459e-88c0-022a01dcebf2_1194x636.png 1.5x, https://substackcdn.com/image/fetch/$s_!05g6!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46dd6825-2a1c-459e-88c0-022a01dcebf2_1194x636.png 2x"
+        data-sizes="auto"
+        alt="https://substackcdn.com/image/fetch/$s_!05g6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46dd6825-2a1c-459e-88c0-022a01dcebf2_1194x636.png"
+        title="https://substackcdn.com/image/fetch/$s_!05g6!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46dd6825-2a1c-459e-88c0-022a01dcebf2_1194x636.png" />
+<p>收集到这些数值后，就可以计算出必要的 s 和 z，以便于在推理过程中量化。</p>
+<p>实际推理过程中，s 和 z 不需要重新计算，而是被应用于所有激活值，实现全局量化。</p>
+<ul>
+<li>动态量化一般来说精度会更高，因为为每一个隐藏层都计算一次 s 和 z 值，但因此也会增加计算时间。</li>
+<li>而静态量化虽然准确度略低，但由于已知了用于量化的 s 和 z，因此推理时更为高效。</li>
+</ul>
+<h3 id="探索-4-bit-量化的极限">探索 4-bit 量化的极限</h3>
+<p>两种在 HuggingFace 上常用的将量化位数进一步降到 6-bit、4-bit甚至 2-bit（但不建议低于 4-bit）的方法：</p>
+<ul>
+<li>GPTQ：全模型在 GPU 上运行</li>
+<li>GGUP：将一部分模型层从 GPU 转移到 CPU 上执行</li>
+</ul>
+<h4 id="gptq">GPTQ</h4>
+<p>采用非对称量化，逐层处理，每层都经过独立处理。</p>
+<p>首先将模型的权重转换为 Hessian 矩阵（二阶偏导数矩阵，用于描述函数在其输入变量上的局部曲率。对于多变量函数，Hessian 矩阵可以用来了解函数在某点上的凹凸性、函数值对输入变量的变化有多敏感）的逆矩阵，它是模型损失函数的二阶导数，告诉我们模型输出对每个权重变化的敏感程度。</p>
+<p>该过程展示了模型层中每个权重的重要性（权重的影响程度）。</p>
+<p>与 Hessian 矩阵中较小值相关的全助攻更重要，因为它们的微小变化可能对模型性能产生重大影响。</p>
+<h4 id="gguf">GGUF</h4>
+<h2 id="4-训练中量化quantization-aware-trainingqat">4. 训练中量化（Quantization Aware Training，QAT）</h2>
+<p>QAT 的目标是在训练过程中学习量化过程。</p>
+<p>QAT 通常比 PTQ 更准确。</p>
+<p>在训练过程中，引入所谓的“伪”量化，比如先将权重量化到例如 INT4 等形式，然后将它们再反量化回 FP32。</p>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://substackcdn.com/image/fetch/$s_!ETJg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.png"
+        data-srcset="https://substackcdn.com/image/fetch/$s_!ETJg!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.png, https://substackcdn.com/image/fetch/$s_!ETJg!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.png 1.5x, https://substackcdn.com/image/fetch/$s_!ETJg!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.png 2x"
+        data-sizes="auto"
+        alt="https://substackcdn.com/image/fetch/$s_!ETJg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.png"
+        title="https://substackcdn.com/image/fetch/$s_!ETJg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.png" />
+<p>这一过程使得模型在训练阶段进行损失值计算和权重更新时，能够考虑到量化误差。</p>
+<p>QAT 试着探索损失函数中的“宽”最小值区域（“wide” minima），以尽可能减少量化误差，因为“窄”最小值区域（“narrow” minima）往往会导致更大的量化误差。</p>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://substackcdn.com/image/fetch/$s_!GK9b!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png"
+        data-srcset="https://substackcdn.com/image/fetch/$s_!GK9b!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png, https://substackcdn.com/image/fetch/$s_!GK9b!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png 1.5x, https://substackcdn.com/image/fetch/$s_!GK9b!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png 2x"
+        data-sizes="auto"
+        alt="https://substackcdn.com/image/fetch/$s_!GK9b!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png"
+        title="https://substackcdn.com/image/fetch/$s_!GK9b!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://substackcdn.com/image/fetch/$s_!2hF2!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png"
+        data-srcset="https://substackcdn.com/image/fetch/$s_!2hF2!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png, https://substackcdn.com/image/fetch/$s_!2hF2!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png 1.5x, https://substackcdn.com/image/fetch/$s_!2hF2!%2cf_auto%2cq_auto:good%2cfl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png 2x"
+        data-sizes="auto"
+        alt="https://substackcdn.com/image/fetch/$s_!2hF2!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png"
+        title="https://substackcdn.com/image/fetch/$s_!2hF2!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png" />
+<!-- ### 1-bit LLM的时代：BitNet
+
+### 权重的量化
+
+### 激活值的量化
+
+### 反量化过程（Dequantization）
+
+### 所有 LLMs 实际上均为 1.58-bit
+
+#### The Power of 0
+
+#### 量化过程
+
+## 总结 --></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-10-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/251027-quantization/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://example.org/251027-quantization/" data-hashtag="模型量化"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://example.org/251027-quantization/" data-title="模型量化技术"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://example.org/251027-quantization/" data-title="模型量化技术"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/251027-quantization/" data-title="模型量化技术"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96/">模型量化</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/251026-vit/" class="prev" rel="prev" title="Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Vit 模型：《An Image is Worth 16x16 Words: Transformers for Image Recognitoin at Scale》论文笔记</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.155.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.0"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2024 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">RR</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,6 +1,6 @@
 +++
-date = '2025-01-01T02:51:56+01:00'
-draft = false
+date = '2000-01-01T02:51:56+01:00'
+draft = true
 title = '测试文章-骨鱼炖汤'
 author = 'RR'
 tags = ['test', 'Hugo', 'fiction']
